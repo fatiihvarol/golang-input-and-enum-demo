@@ -4,17 +4,22 @@ import (
 	"fmt"
 )
 
+// Ana Product struct
+type Product struct {
+	Name  string
+	Price float64
+}
+
 // Product interface
-type Product interface {
+type ProductInterface interface {
 	GetName() string
 	GetPrice() float64
 	CalculateShipping() float64
 }
 
-// Electronics struct
+// Electronics struct (Product'u embed ediyor)
 type Electronics struct {
-	Name  string
-	Price float64
+	Product
 }
 
 func (e Electronics) GetName() string {
@@ -26,13 +31,12 @@ func (e Electronics) GetPrice() float64 {
 }
 
 func (e Electronics) CalculateShipping() float64 {
-	return 20.0 // Kırılabilir elektronik ürünler için kargo
+	return 20.0 // Elektronik için kargo
 }
 
-// Furniture struct
+// Furniture struct (Product'u embed ediyor)
 type Furniture struct {
-	Name  string
-	Price float64
+	Product
 }
 
 func (f Furniture) GetName() string {
@@ -44,13 +48,12 @@ func (f Furniture) GetPrice() float64 {
 }
 
 func (f Furniture) CalculateShipping() float64 {
-	return 50.0 // Büyük mobilya ürünleri için kargo
+	return 50.0 // Mobilya için kargo
 }
 
-// Clothing struct
+// Clothing struct (Product'u embed ediyor)
 type Clothing struct {
-	Name  string
-	Price float64
+	Product
 }
 
 func (c Clothing) GetName() string {
@@ -62,11 +65,11 @@ func (c Clothing) GetPrice() float64 {
 }
 
 func (c Clothing) CalculateShipping() float64 {
-	return 5.0 // Küçük kıyafet ürünleri için kargo
+	return 5.0 // Kıyafet için kargo
 }
 
-// Sepet fonksiyonu
-func CalculateCart(cart []Product) (totalPrice, totalShipping float64) {
+// Sepet hesaplama fonksiyonu
+func CalculateCart(cart []ProductInterface) (totalPrice, totalShipping float64) {
 	for _, item := range cart {
 		totalPrice += item.GetPrice()
 		totalShipping += item.CalculateShipping()
@@ -76,10 +79,10 @@ func CalculateCart(cart []Product) (totalPrice, totalShipping float64) {
 }
 
 func main() {
-	cart := []Product{
-		Electronics{Name: "Kulaklık", Price: 150},
-		Furniture{Name: "Sandalye", Price: 300},
-		Clothing{Name: "Tişört", Price: 50},
+	cart := []ProductInterface{
+		Electronics{Product{"Kulaklık", 150}},
+		Furniture{Product{"Sandalye", 300}},
+		Clothing{Product{"Tişört", 50}},
 	}
 
 	totalPrice, totalShipping := CalculateCart(cart)

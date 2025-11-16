@@ -7,18 +7,27 @@ import (
 	"strings"
 )
 
-const FreeShippingThreshold = 500.0
-
 type Discount struct {
 	Amount    float64
 	IsPercent bool
 }
 
-var discountCodes = map[string]Discount{
-	"DISC50":  {50, false},
-	"DISC100": {100, false},
-	"PERC5":   {0.05, true},
-	"PERC10":  {0.10, true},
+type Config struct {
+	FreeShippingThreshold float64
+	KeyboardInputKey      string
+	DiscountCodes         map[string]Discount
+}
+
+// Global config değişkeni
+var config = Config{
+	FreeShippingThreshold: 500.0,
+	KeyboardInputKey:      "1",
+	DiscountCodes: map[string]Discount{
+		"DISC50":  {50, false},
+		"DISC100": {100, false},
+		"PERC5":   {0.05, true},
+		"PERC10":  {0.10, true},
+	},
 }
 
 type Product struct {
@@ -104,14 +113,12 @@ func (c *Cart) AddItem(p ProductInterface, quantity int) bool {
 	return true
 }
 
-// Sepet indirim kodunu uygular
 func (c *Cart) ApplyDiscountCode(d Discount) {
 	if d.IsPercent {
 		for _, item := range c.Items {
 			item.Product.ApplyExtraDiscount(d.Amount)
 		}
 	} else {
-		// Sabit TL indirim tüm ürünlere orantılı dağıtılabilir
 		totalPrice := 0.0
 		for _, item := range c.Items {
 			totalPrice += item.Product.GetPrice() * float64(item.Quantity)
@@ -139,7 +146,7 @@ func (c Cart) CalculateTotals() (totalPrice, totalDiscount, totalShipping, grand
 	}
 
 	grandTotal = totalPrice - totalDiscount
-	if grandTotal >= FreeShippingThreshold {
+	if grandTotal >= config.FreeShippingThreshold {
 		totalShipping = 0
 		freeShipping = true
 	}
@@ -186,17 +193,17 @@ func main() {
 	cart.PrintCart()
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("İndirim kodunuz varsa 1'e basın, yoksa Enter'a basın:")
+	fmt.Printf("İndirim kodunuz varsa %s'e basın, yoksa Enter'a basın:\n", config.KeyboardInputKey)
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
-	if input == "1" {
+	if input == config.KeyboardInputKey {
 		fmt.Print("Lütfen indirim kodunuzu girin: ")
 		codeInput, _ := reader.ReadString('\n')
 		codeInput = strings.TrimSpace(strings.ToUpper(codeInput))
 
-		if d, ok := discountCodes[codeInput]; ok {
+		if d, ok := config.DiscountCodes[codeInput]; ok {
 			cart.ApplyDiscountCode(d)
-			fmt.Println("İndirim kodu uygulandi!")
+			fmt.Println("İndirim kodu uygulandı!")
 		} else {
 			fmt.Println("Geçersiz indirim kodu.")
 		}

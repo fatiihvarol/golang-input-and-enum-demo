@@ -176,7 +176,7 @@ func (c Cart) PrintCart() {
 func main() {
 	headphones := &Electronics{Product{"Kulaklık", 150, 10, 0.10, 20}}
 	chair := &Furniture{Product{"Sandalye", 300, 5, 0.15, 50}}
-	tshirt := &Clothing{Product{"Tişört", 50, 20, 0.05, 5}}
+	tshirt := &Clothing{Product{"Tişört", 50, 20, 0.10, 5}}
 
 	cart := Cart{}
 	cart.AddItem(headphones, 2)
@@ -196,7 +196,7 @@ func main() {
 
 		if d, ok := discountCodes[codeInput]; ok {
 			cart.ApplyDiscountCode(d)
-			fmt.Println("İndirim kodu uygulandı!")
+			fmt.Println("İndirim kodu uygulandi!")
 		} else {
 			fmt.Println("Geçersiz indirim kodu.")
 		}

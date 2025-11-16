@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ReversalResponseDto>
-    <ResponseCode>0000</ResponseCode>
-    <ResponseMessage>İŞLEM BAŞARILI</ResponseMessage>
-    <CustomData>&lt;CustomData&gt;&lt;/CustomData&gt;</CustomData>
-</ReversalResponseDto>

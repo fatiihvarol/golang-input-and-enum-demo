@@ -26,7 +26,7 @@ var config = Config{
 		"DISC50":  {50, false},
 		"DISC100": {100, false},
 		"PERC5":   {0.05, true},
-		"PERC10":  {0.10, true},
+		"PERC10":  {0.30, true},
 	},
 }
 
@@ -171,6 +171,7 @@ func (c Cart) PrintCart() {
 	totalPrice, totalDiscount, totalShipping, grandTotal, freeShipping := c.CalculateTotals()
 	fmt.Printf("Sepet Toplam Fiyat: %.2f\n", totalPrice)
 	fmt.Printf("Sepet Toplam İndirim: %.2f\n", totalDiscount)
+	fmt.Printf("İndirimden sonraki Fiyat: %.2f\n", totalPrice-totalDiscount)
 	if freeShipping {
 		fmt.Println("Tebrikler! Kargo ücretsiz.")
 	} else {
@@ -193,21 +194,24 @@ func main() {
 	cart.PrintCart()
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("İndirim kodunuz varsa %s'e basın, yoksa Enter'a basın:\n", config.KeyboardInputKey)
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
-	if input == config.KeyboardInputKey {
-		fmt.Print("Lütfen indirim kodunuzu girin: ")
+
+	for {
+		fmt.Print("İndirim kodunuzu girin (çıkmak için Enter'a basın): ")
 		codeInput, _ := reader.ReadString('\n')
 		codeInput = strings.TrimSpace(strings.ToUpper(codeInput))
+
+		if codeInput == "" {
+			break // Enter basıldı, döngüden çık
+		}
 
 		if d, ok := config.DiscountCodes[codeInput]; ok {
 			cart.ApplyDiscountCode(d)
 			fmt.Println("İndirim kodu uygulandı!")
+			cart.PrintCart()
+			break
 		} else {
-			fmt.Println("Geçersiz indirim kodu.")
+			fmt.Printf("Geçersiz indirim kodu: '%s'. Tekrar deneyin.\n", codeInput)
 		}
 	}
 
-	cart.PrintCart()
 }

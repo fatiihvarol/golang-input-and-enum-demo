@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <Authenticate xmlns="https://pumpservice.petrolofisi.com.tr/">
+            <iStationId>009400</iStationId>
+            <iTrnxId>94002511131057490402</iTrnxId>
+            <iPumpId>04</iPumpId>
+            <iVIUId>388B334A</iVIUId>
+            <iProductId>04</iProductId>
+            <iPlate>34TST471</iPlate>
+            <iCustomData>&lt;CustomData&gt;
+                &lt;Data Name="UnitPrice" Value="53590" /&gt;
+                &lt;Data Name="P50" Value="1" /&gt;
+                &lt;/CustomData&gt;</iCustomData>
+        </Authenticate>
+    </soap:Body>
+</soap:Envelope>
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <s:Body>
+        <AuthenticateResponse xmlns="https://pumpservice.petrolofisi.com.tr/">
+            <AuthenticateResult>1</AuthenticateResult>
+            <oRRPID>80388b6666c0f011b412005056a8223f</oRRPID>
+            <oTrnxType>Loyalty</oTrnxType>
+            <oResponseCode>0000</oResponseCode>
+            <oResponseMessage>İŞLEM BAŞARILI</oResponseMessage>
+            <oLimit></oLimit>
+            <oPlate>34TST471</oPlate>
+            <oCustomData>&lt;CustomData&gt;&lt;Name&gt;FleetName&lt;/Name&gt;&lt;Value&gt;&lt;![CDATA[Ahmet
+                asd]]&gt;&lt;/Value&gt;&lt;/CustomData&gt;</oCustomData>
+        </AuthenticateResponse>
+    </s:Body>
+</s:Envelope>

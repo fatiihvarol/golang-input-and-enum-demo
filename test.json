@@ -1,0 +1,6 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <s:Body>
+    <AuthorizeResponse xmlns="https://pumpservice.petrolofisi.com.tr/">
+      <AuthorizeResult>0</AuthorizeResult><oResponseCode>1211</oResponseCode><oResponseMessage>SİSTEM HATASI</oResponseMessage></AuthorizeResponse>
+  </s:Body>
+</s:Envelope>
